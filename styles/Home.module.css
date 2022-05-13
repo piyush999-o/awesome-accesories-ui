@@ -114,3 +114,8 @@
     flex-direction: column;
   }
 }
+
+.img{
+  width: inherit;
+  object-fit: cover;
+}
