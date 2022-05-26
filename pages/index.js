@@ -1,52 +1,61 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
 
 export default function Home(props) {
   return (
     <div className={styles.container}>
       <Head>
         <title>Awesome Accesosries</title>
-        <meta name="description" content="Awesome Accesories The Amazing Collections" />
+        <meta
+          name="description"
+          content="Awesome Accesories The Amazing Collections"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <section className="text-gray-600 body-font">
-        <div className="container py-20 mx-0">
-          <div className="flex flex-nowrap justify-center">
-
+      <section class="text-gray-600 body-font">
+        <div class="container px-5 py-24 mx-auto">
+          <div class="flex flex-wrap -m-4">
             {props.products.data.map((item) => {
               const HOST = "http://localhost:1337";
               return (
-                <div className={`container lg:w-1/4 md:w-1/2 p-0 w-full ${styles.img} mx-0`} key={item.id}>
-                  <a className="block relative h-48 rounded overflow-hidden">
-                    <img alt="ecommerce" className={`object-cover object-center h-full block ${styles.img}`} src={`${HOST}${item.attributes.images.data.attributes.url}`} />
-                  </a>
-                  <div className="mt-4">
-                    <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">{item.attributes.category}</h3>
-                    <h2 className="text-gray-900 title-font text-lg font-medium">{item.attributes.title}</h2>
-                    p
-                    <p className="mt-1">{item.attributes.price}.00</p>
+                <div class="p-4 md:w-1/4">
+                  <div class={`h-full border-2 border-gray-200 border-opacity-60 overflow-hidden ${styles.card}`}>
+                    <img
+                      loading="lazy"
+                      class="lg:h-60 md:h-36 w-full object-cover object-center"
+                      src={`${HOST}${item.attributes.images.data.attributes.url}`}
+                      alt="blog"
+                    />
+                    <div class="p-6">
+                      <h2 class="tracking-widest text-s title-font font-medium text-gray-500 mb-2">
+                        {item.attributes.category}
+                      </h2>
+                      <h1 class=" text-xl font-medium font-sans text-gray-900 mb-2.5">
+                        {item.attributes.title}
+                      </h1>
+                      <p class="leading-relaxed font-sans mb-1">
+                        {item.attributes.description}
+                      </p>
+
+                      <p className="mt-1 text-lg font-semibold text-violet-700">{item.attributes.price}.00</p>
+                    </div>
                   </div>
                 </div>
-              )
+              );
             })}
-
           </div>
         </div>
       </section>
     </div>
-  )
+  );
 }
 
 export async function getServerSideProps(context) {
-
   let data = await fetch("http://localhost:1337/api/products?populate=*");
   let products = await data.json();
-  console.log(products);
 
   return {
     props: { products },
-  }
+  };
 }
-
